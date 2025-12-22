@@ -174,7 +174,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # Linux
-*~
 .directory
 .Trash-*
 .nfs*
@@ -192,8 +191,6 @@ temp/
 # Cache directories
 .cache/
 .parcel-cache/
-.eslintcache
-.stylelintcache
 .rpt2_cache/
 .rts2_cache_cjs/
 .rts2_cache_es/
@@ -296,9 +293,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .rts2_cache_cjs/
 .rts2_cache_es/
 .rts2_cache_umd/
-
-# Optional REPL history
-.node_repl_history
 
 # Storybook files
 storybook-static/
