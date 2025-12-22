@@ -1,5 +1,4 @@
-const User = require('../models/User');
-const { generateToken } = require('../utils/jwt');
+const AuthService = require('../services/AuthService');
 
 class AuthController {
   /**
@@ -9,91 +8,25 @@ class AuthController {
    */
   async login(req, res) {
     try {
-      const { email, password, userType } = req.body;
+      const result = await AuthService.login(req.body);
 
-      // Validate input
-      if (!email || !password || !userType) {
-        return res.status(400).json({
-          success: false,
-          statusCode: 400,
-          message: 'Please provide email, password, and user type'
-        });
-      }
-
-      // Find user by email and include password field
-      const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
-
-      if (!user) {
-        return res.status(401).json({
-          success: false,
-          statusCode: 401,
-          message: 'Invalid email or password'
-        });
-      }
-
-      // Check if user is active
-      if (!user.isActive) {
-        return res.status(403).json({
-          success: false,
-          statusCode: 403,
-          message: 'Account is inactive. Please contact support.'
-        });
-      }
-
-      // Verify user type matches
-      if (user.userType !== userType.toLowerCase()) {
-        return res.status(401).json({
-          success: false,
-          statusCode: 401,
-          message: 'Invalid user type selected'
-        });
-      }
-
-      // Verify password
-      const isPasswordValid = await user.comparePassword(password);
-      if (!isPasswordValid) {
-        return res.status(401).json({
-          success: false,
-          statusCode: 401,
-          message: 'Invalid email or password'
-        });
-      }
-
-      // Generate JWT token
-      const token = generateToken({
-        id: user._id,
-        email: user.email,
-        userType: user.userType
-      });
-
-      // Return success response with token and user data
       return res.status(200).json({
         success: true,
         statusCode: 200,
         message: 'Login successful',
-        data: {
-          token,
-          user: {
-            id: user._id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            userType: user.userType,
-            fullName: user.fullName,
-            phone: user.phone,
-            streetAddress: user.streetAddress,
-            city: user.city,
-            state: user.state,
-            zipCode: user.zipCode
-          }
-        }
+        data: result
       });
     } catch (error) {
       console.error('Login error:', error);
-      return res.status(500).json({
+      
+      // Handle specific error cases
+      const statusCode = error.message.includes('Invalid') || 
+                        error.message.includes('inactive') ? 401 : 500;
+      
+      return res.status(statusCode).json({
         success: false,
-        statusCode: 500,
-        message: 'An error occurred during login',
+        statusCode,
+        message: error.message || 'An error occurred during login',
         error: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
     }
@@ -106,42 +39,23 @@ class AuthController {
    */
   async getCurrentUser(req, res) {
     try {
-      const user = await User.findById(req.user.id);
-      
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          statusCode: 404,
-          message: 'User not found'
-        });
-      }
+      const user = await AuthService.getCurrentUser(req.user.id);
 
       return res.status(200).json({
         success: true,
         statusCode: 200,
         message: 'User retrieved successfully',
-        data: {
-          user: {
-            id: user._id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            userType: user.userType,
-            fullName: user.fullName,
-            phone: user.phone,
-            streetAddress: user.streetAddress,
-            city: user.city,
-            state: user.state,
-            zipCode: user.zipCode
-          }
-        }
+        data: { user }
       });
     } catch (error) {
       console.error('Get current user error:', error);
-      return res.status(500).json({
+      
+      const statusCode = error.message === 'User not found' ? 404 : 500;
+      
+      return res.status(statusCode).json({
         success: false,
-        statusCode: 500,
-        message: 'An error occurred while retrieving user',
+        statusCode,
+        message: error.message || 'An error occurred while retrieving user',
         error: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
     }
@@ -153,11 +67,23 @@ class AuthController {
    * @access  Private
    */
   async logout(req, res) {
-    return res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: 'Logout successful'
-    });
+    try {
+      await AuthService.logout();
+      
+      return res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: 'Logout successful'
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+      
+      return res.status(500).json({
+        success: false,
+        statusCode: 500,
+        message: 'An error occurred during logout'
+      });
+    }
   }
 }
 
