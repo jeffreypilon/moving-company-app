@@ -60,6 +60,7 @@ project-root/
 │   │   ├── errorHandler.js   # Centralized error handling
 │   │   └── validation.js     # Input validation
 │   ├── models/                # Mongoose schemas/models
+│   ├── repositories/          # Data access layer (database operations)
 │   ├── routes/                # Express routes (RESTful API endpoints)
 │   ├── services/              # Business logic layer
 │   ├── utils/                 # Helper functions
@@ -223,8 +224,11 @@ npm run format
 ### Naming Conventions
 
 - **Models/Schemas**: PascalCase, singular (e.g., `User`, `Booking`, `ServiceArea`)
+- **Repositories**: PascalCase with Repository suffix (e.g., `UserRepository`, `BookingRepository`)
+- **Services**: PascalCase with Service suffix (e.g., `UserService`, `BookingService`)
+- **Controllers**: PascalCase with Controller suffix (e.g., `UserController`, `BookingController`)
 - **Components**: PascalCase (e.g., `BookingForm`, `UserProfile`)
-- **Files**: Match component/model name (e.g., `BookingForm.jsx`, `User.js`)
+- **Files**: Match component/model name (e.g., `BookingForm.jsx`, `User.js`, `UserRepository.js`)
 - **API Routes**: kebab-case, plural (e.g., `/api/bookings`, `/api/service-areas`)
 - **Functions/Variables**: camelCase (e.g., `getUserById`, `totalPrice`)
 - **Constants**: UPPER_SNAKE_CASE (e.g., `MAX_FILE_SIZE`, `API_BASE_URL`)
@@ -232,16 +236,33 @@ npm run format
 
 ### File Organization
 
+**Backend Architecture Layers:**
+The backend follows a layered architecture pattern:
+1. **Controllers** → Handle HTTP requests/responses
+2. **Services** → Contain business logic
+3. **Repositories** → Handle data access and database operations
+4. **Models** → Define database schemas
+
 **Backend Controllers:**
 - Use class-based controllers with PascalCase names ending in "Controller"
 - Export instance: `module.exports = new UserController();`
 - Use async/await with asyncHandler wrapper for error handling
 - Add JSDoc comments for each route handler
+- Controllers call Services, never directly access Repositories or Models
 
 **Backend Services:**
 - Use class-based services with PascalCase names ending in "Service"
 - Contains business logic only (no HTTP request/response handling)
 - Export instance: `module.exports = new UserService();`
+- Services call Repositories for data access
+
+**Backend Repositories:**
+- Use class-based repositories with PascalCase names ending in "Repository"
+- Handle all database operations (CRUD, queries, aggregations)
+- Export instance: `module.exports = new UserRepository();`
+- Repositories interact directly with Models
+- Use `.lean()` for read-only queries, `.select()` to limit fields
+- Implement pagination, filtering, and sorting logic here
 
 **Backend Models:**
 - Define Mongoose schemas with detailed validation
@@ -549,6 +570,149 @@ module.exports = mongoose.model('ModelName', schema);
 - `serviceareas`: Geographical areas served
 - `quotes`: Moving quotes generated
 - `services`: Service offerings
+
+### Repository Layer Pattern Example
+
+The repository layer encapsulates all data access logic:
+
+```javascript
+// repositories/UserRepository.js
+const User = require('../models/User');
+
+class UserRepository {
+  /**
+   * Find all users with pagination and filtering
+   */
+  async findAll(options = {}) {
+    const { page = 1, limit = 10, sortBy = 'createdAt', order = 'desc', filters = {} } = options;
+    const skip = (page - 1) * limit;
+    const sort = { [sortBy]: order === 'asc' ? 1 : -1 };
+    
+    const [users, total] = await Promise.all([
+      User.find(filters)
+        .select('-password')
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      User.countDocuments(filters)
+    ]);
+    
+    return { users, total, page, limit };
+  }
+
+  /**
+   * Find user by ID
+   */
+  async findById(userId) {
+    return await User.findById(userId).select('-password').lean();
+  }
+
+  /**
+   * Find user by email
+   */
+  async findByEmail(email) {
+    return await User.findOne({ email: email.toLowerCase() }).lean();
+  }
+
+  /**
+   * Create new user
+   */
+  async create(userData) {
+    const user = new User(userData);
+    await user.save();
+    return user.toJSON();
+  }
+
+  /**
+   * Update user by ID
+   */
+  async update(userId, updateData) {
+    return await User.findByIdAndUpdate(
+      userId,
+      updateData,
+      { new: true, runValidators: true }
+    ).select('-password').lean();
+  }
+
+  /**
+   * Delete user by ID
+   */
+  async delete(userId) {
+    return await User.findByIdAndDelete(userId);
+  }
+
+  /**
+   * Check if user exists by email
+   */
+  async existsByEmail(email) {
+    return await User.exists({ email: email.toLowerCase() });
+  }
+}
+
+module.exports = new UserRepository();
+```
+
+**Services use Repositories:**
+```javascript
+// services/UserService.js
+const UserRepository = require('../repositories/UserRepository');
+
+class UserService {
+  async getAllUsers(options) {
+    // Business logic here
+    const filters = { isActive: true };
+    if (options.role) filters.role = options.role;
+    
+    const result = await UserRepository.findAll({ ...options, filters });
+    
+    return {
+      users: result.users,
+      pagination: {
+        currentPage: result.page,
+        totalPages: Math.ceil(result.total / result.limit),
+        totalItems: result.total,
+        itemsPerPage: result.limit
+      }
+    };
+  }
+
+  async getUserById(userId) {
+    return await UserRepository.findById(userId);
+  }
+
+  async createUser(userData) {
+    // Business logic: validate, check duplicates, etc.
+    const exists = await UserRepository.existsByEmail(userData.email);
+    if (exists) {
+      throw new Error('Email already exists');
+    }
+    
+    return await UserRepository.create(userData);
+  }
+
+  async updateUser(userId, updateData) {
+    // Business logic here
+    return await UserRepository.update(userId, updateData);
+  }
+
+  async deleteUser(userId) {
+    const user = await UserRepository.delete(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
+}
+
+module.exports = new UserService();
+```
+
+**Benefits of Repository Layer:**
+- Separation of concerns: data access logic isolated from business logic
+- Easier testing: mock repositories instead of database
+- Reusability: same repository methods used across multiple services
+- Maintainability: database query changes only affect repository layer
 
 ---
 
