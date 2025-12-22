@@ -79,7 +79,12 @@ class AuthController {
             firstName: user.firstName,
             lastName: user.lastName,
             userType: user.userType,
-            fullName: user.fullName
+            fullName: user.fullName,
+            phone: user.phone,
+            streetAddress: user.streetAddress,
+            city: user.city,
+            state: user.state,
+            zipCode: user.zipCode
           }
         }
       });
@@ -124,6 +129,7 @@ class AuthController {
             userType: user.userType,
             fullName: user.fullName,
             phone: user.phone,
+            streetAddress: user.streetAddress,
             city: user.city,
             state: user.state,
             zipCode: user.zipCode

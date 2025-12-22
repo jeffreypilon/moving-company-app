@@ -33,6 +33,10 @@ const userSchema = new Schema(
       type: String,
       trim: true
     },
+    streetAddress: {
+      type: String,
+      trim: true
+    },
     city: {
       type: String,
       trim: true
