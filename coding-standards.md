@@ -3,7 +3,8 @@
 **Version:** 1.0  
 **Last Updated:** 2025-12-22  
 **Project Type:** Single Page Application (SPA)  
-**Project Stack:** MongoDB, Express.js, React (Vite) with Redux, Node.js, Mongoose
+**Project Stack:** MongoDB, Express.js, React (Vite) with Redux, Node.js, Mongoose  
+**UI Framework:** React Bootstrap
 
 ---
 
@@ -701,6 +702,7 @@ This project is built as a **Single Page Application** using React with the foll
 - **Client-Side Routing**: Use React Router for seamless navigation without server requests
 - **Component-Based UI**: Build modular, reusable components that can be dynamically mounted and unmounted
 - **Redux State Management**: Centralize application state in Redux store for predictable state updates
+- **React Bootstrap Components**: Use React Bootstrap for consistent, accessible, and responsive UI components
 - **Fast Load Times**: Optimize for initial load and lazy-load components as needed
 - **Responsive Design**: All components must adapt to different screen sizes (mobile, tablet, desktop)
 
@@ -827,6 +829,411 @@ UserProfile.propTypes = {
 };
 
 export default UserProfile;
+```
+
+### React Bootstrap Best Practices
+
+#### Import Components Individually
+```jsx
+// Good: Import only what you need
+import { Button, Form, Card, Container, Row, Col } from 'react-bootstrap';
+
+// Avoid: Importing entire library
+import * as ReactBootstrap from 'react-bootstrap';
+```
+
+#### Bootstrap CSS Setup
+Ensure Bootstrap CSS is imported in your main entry point:
+```jsx
+// client/src/main.jsx
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+```
+
+#### Common React Bootstrap Components
+
+**Layout Components:**
+- `Container`, `Row`, `Col`: Grid system for responsive layouts
+- `Stack`: Flexbox utility for stacking elements
+
+**Form Components:**
+- `Form`, `Form.Control`, `Form.Group`, `Form.Label`: Form elements
+- `InputGroup`: Input with addons (icons, buttons)
+- `Form.Check`: Checkboxes and radio buttons
+- `Form.Select`: Dropdown selects
+
+**UI Components:**
+- `Button`: Styled buttons with variants (primary, secondary, success, danger, warning, info, light, dark)
+- `Card`: Content containers with header, body, footer
+- `Modal`: Dialog boxes and overlays
+- `Alert`: Contextual feedback messages
+- `Badge`: Small count and labeling component
+- `Spinner`: Loading indicators
+- `Toast`: Push notifications
+- `Table`: Responsive tables
+
+**Navigation Components:**
+- `Navbar`, `Nav`: Navigation bars and menus
+- `Breadcrumb`: Navigation hierarchy
+- `Pagination`: Page navigation
+- `Tabs`, `Tab`: Tabbed interfaces
+
+#### Form Example with React Bootstrap
+```jsx
+import { useState } from 'react';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+
+const BookingForm = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    moveDate: '',
+    propertyType: 'apartment'
+  });
+  const [validated, setValidated] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
+      return;
+    }
+
+    try {
+      await onSubmit(formData);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  return (
+    <Container>
+      <Row>
+        <Col md={8} lg={6} className="mx-auto">
+          <h2 className="mb-4">Book Your Move</h2>
+          
+          {error && (
+            <Alert variant="danger" dismissible onClose={() => setError('')}>
+              {error}
+            </Alert>
+          )}
+          
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="firstName">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    placeholder="Enter first name"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a first name.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              
+              <Col md={6}>
+                <Form.Group className="mb-3" controlId="lastName">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Enter last name"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a last name.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                required
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="your.email@example.com"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid email.
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="propertyType">
+              <Form.Label>Property Type</Form.Label>
+              <Form.Select 
+                name="propertyType" 
+                value={formData.propertyType}
+                onChange={handleChange}
+              >
+                <option value="apartment">Apartment</option>
+                <option value="house">House</option>
+                <option value="condo">Condo</option>
+                <option value="office">Office</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="moveDate">
+              <Form.Label>Preferred Move Date</Form.Label>
+              <Form.Control
+                required
+                type="date"
+                name="moveDate"
+                value={formData.moveDate}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Please select a move date.
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <div className="d-grid">
+              <Button variant="primary" type="submit" size="lg">
+                Submit Booking Request
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default BookingForm;
+```
+
+#### Loading States with React Bootstrap
+```jsx
+import { Spinner, Container, Button } from 'react-bootstrap';
+
+const LoadingExample = ({ isLoading, onLoad }) => {
+  if (isLoading) {
+    return (
+      <Container className="text-center py-5">
+        <Spinner animation="border" role="status" variant="primary">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p className="mt-3">Loading data...</p>
+      </Container>
+    );
+  }
+
+  return (
+    <Button variant="primary" onClick={onLoad} disabled={isLoading}>
+      {isLoading ? (
+        <>
+          <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+            className="me-2"
+          />
+          Loading...
+        </>
+      ) : (
+        'Load Data'
+      )}
+    </Button>
+  );
+};
+```
+
+#### Responsive Grid Layout with React Bootstrap
+```jsx
+import { Container, Row, Col, Card } from 'react-bootstrap';
+
+const ServiceGrid = ({ services }) => {
+  return (
+    <Container>
+      <h2 className="mb-4">Our Services</h2>
+      <Row>
+        {services.map(service => (
+          <Col 
+            key={service.id} 
+            xs={12}    // Full width on mobile
+            sm={6}     // 2 columns on small screens
+            lg={4}     // 3 columns on large screens
+            xl={3}     // 4 columns on extra large screens
+            className="mb-4"
+          >
+            <Card className="h-100 shadow-sm">
+              <Card.Img variant="top" src={service.image} alt={service.name} />
+              <Card.Body className="d-flex flex-column">
+                <Card.Title>{service.name}</Card.Title>
+                <Card.Text className="flex-grow-1">
+                  {service.description}
+                </Card.Text>
+                <Button variant="primary" className="mt-auto">
+                  Learn More
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
+};
+```
+
+#### Modal Example with React Bootstrap
+```jsx
+import { useState } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
+
+const UserModal = ({ show, onHide, onSave, user }) => {
+  const [formData, setFormData] = useState(user || {});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+    onHide();
+  };
+
+  return (
+    <Modal show={show} onHide={onHide} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>{user ? 'Edit User' : 'Add User'}</Modal.Title>
+      </Modal.Header>
+      
+      <Modal.Body>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="firstName"
+              value={formData.firstName || ''}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          
+          <Form.Group className="mb-3">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="lastName"
+              value={formData.lastName || ''}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          
+          <Form.Group className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              value={formData.email || ''}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>
+          Cancel
+        </Button>
+        <Button variant="primary" onClick={handleSubmit}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+```
+
+#### Styling React Bootstrap Components
+```jsx
+// Use Bootstrap's utility classes
+<Button variant="primary" size="lg" className="mt-3 shadow-sm">
+  Click Me
+</Button>
+
+// Combine multiple utility classes
+<Card className="shadow-lg border-0 rounded-3">
+  <Card.Body className="p-4">
+    Content with custom padding
+  </Card.Body>
+</Card>
+
+// Use custom CSS modules when needed
+import styles from './MyComponent.module.css';
+
+<Card className={`${styles.customCard} shadow`}>
+  <Card.Body>Content</Card.Body>
+</Card>
+
+// Or use inline styles (sparingly, for dynamic values)
+<Alert 
+  variant="info" 
+  style={{ 
+    borderRadius: '10px',
+    backgroundColor: `rgba(13, 110, 253, ${opacity})`
+  }}
+>
+  Information message
+</Alert>
+```
+
+#### Accessibility Best Practices
+```jsx
+// Always provide aria-labels for icons and buttons without text
+<Button variant="primary" aria-label="Close dialog">
+  <i className="bi bi-x"></i>
+</Button>
+
+// Use visually-hidden for screen readers
+<Spinner animation="border" role="status">
+  <span className="visually-hidden">Loading...</span>
+</Spinner>
+
+// Provide descriptive labels for form controls
+<Form.Group controlId="userEmail">
+  <Form.Label>Email address</Form.Label>
+  <Form.Control 
+    type="email" 
+    placeholder="Enter email"
+    aria-describedby="emailHelp"
+  />
+  <Form.Text id="emailHelp" className="text-muted">
+    We'll never share your email with anyone else.
+  </Form.Text>
+</Form.Group>
 ```
 
 #### Custom Hooks Pattern

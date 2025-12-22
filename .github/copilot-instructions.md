@@ -23,6 +23,7 @@ This is a **Single Page Application (SPA)** built with the MERN stack for a movi
 
 **Technical Architecture:**
 - **Frontend:** React SPA with Redux for centralized state management
+- **UI Framework:** React Bootstrap for consistent, professional, and responsive UI components
 - **Component Strategy:** Modular, reusable components for dynamic UI rendering
 - **Routing:** Client-side routing with React Router for seamless navigation
 - **Performance:** Optimized for fast loading and responsive interactions without full page refreshes
@@ -115,6 +116,13 @@ project-root/
    cd ../client
    npm install
    ```
+   
+   **Note:** The project uses React Bootstrap for UI components. The following dependencies are included:
+   - `react-bootstrap`: Bootstrap components built with React
+   - `bootstrap`: Bootstrap CSS framework
+   - `@reduxjs/toolkit`: Redux state management
+   - `react-router-dom`: Client-side routing
+   - `axios`: HTTP client for API calls
 
 4. **Set up environment variables**:
    
@@ -134,6 +142,11 @@ project-root/
    ```
 
    Copy from `.env.example` files if they exist.
+   
+   **Important:** Import Bootstrap CSS in your main.jsx:
+   ```javascript
+   import 'bootstrap/dist/css/bootstrap.min.css';
+   ```
 
 5. **Start MongoDB** (if running locally):
    ```bash
@@ -814,7 +827,9 @@ npm audit fix                # Fix security vulnerabilities
 
 11. **Small, focused changes:** Make minimal modifications to achieve the goal. Don't refactor unrelated code.
 
-12. **Responsive design:** All UI components must work on desktop, tablet, and mobile (use responsive CSS or frameworks like Tailwind/Bootstrap).
+12. **Responsive design:** All UI components must work on desktop, tablet, and mobile. Use React Bootstrap's responsive grid system (`Container`, `Row`, `Col`) and responsive utilities (e.g., `d-none d-md-block`, breakpoint props like `xs={12} md={6} lg={4}`).
+
+13. **React Bootstrap components:** Always use React Bootstrap components instead of creating custom UI components. Import from `react-bootstrap` for buttons, forms, cards, modals, alerts, etc.
 
 ---
 
