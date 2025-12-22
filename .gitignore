@@ -42,7 +42,6 @@ lerna-debug.log*
 client/dist/
 client/build/
 client/.vite/
-client/.vite-cache/
 
 # Backend build output (if using TypeScript compilation)
 server/dist/
@@ -181,14 +180,6 @@ temp/
 .tmp/
 .temp/
 
-# Cache directories
-.cache/
-.parcel-cache/
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
 # =============================================================================
 # Security & Secrets
 # =============================================================================
@@ -244,7 +235,7 @@ client/public/.cache/
 .yarn-integrity
 
 # Stores VSCode versions used for testing VSCode extensions
-.vscode-test
+.vscode-test/
 
 # =============================================================================
 # Miscellaneous
