@@ -103,7 +103,6 @@ dump/
 
 # Visual Studio Code
 .vscode/
-.vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json.example
 
@@ -125,8 +124,8 @@ dump/
 .vim/
 
 # Emacs
-\#*\#
-.\#*
+#*#
+.#*
 .emacs.desktop
 .emacs.desktop.lock
 
