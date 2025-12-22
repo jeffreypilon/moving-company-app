@@ -2,7 +2,8 @@
 
 **Version:** 1.0  
 **Last Updated:** 2025-12-22  
-**Project Stack:** MongoDB, Express.js, React (Vite), Node.js, Mongoose
+**Project Type:** Single Page Application (SPA)  
+**Project Stack:** MongoDB, Express.js, React (Vite) with Redux, Node.js, Mongoose
 
 ---
 
@@ -26,9 +27,11 @@
 ### Core Values
 - **Consistency**: Follow established patterns throughout the codebase
 - **Readability**: Write self-documenting code with clear intent
-- **Maintainability**:  Design for future modifications and scalability
-- **Performance**: Optimize for speed without sacrificing code clarity
+- **Maintainability**: Design for future modifications and scalability
+- **Performance**: Optimize for speed without sacrificing code clarity (critical for SPA responsiveness)
 - **Security**: Implement security best practices at every layer
+- **Component Reusability**: Build modular, reusable components for dynamic UI rendering
+- **State Management**: Use Redux for centralized, predictable state management across the SPA
 
 ### Code Organization
 - Use ES6+ features (arrow functions, async/await, destructuring, etc.)
@@ -51,23 +54,26 @@
 
 ```
 project-root/
-├── client/                     # React frontend (Vite)
+├── client/                     # React frontend (Vite) - Single Page Application
 │   ├── public/                 # Static assets
 │   ├── src/
 │   │   ├── assets/            # Images, fonts, etc.
 │   │   ├── components/        # Reusable UI components
-│   │   │   ├── common/       # Shared components
-│   │   │   └── features/     # Feature-specific components
-│   │   ├── contexts/          # React Context providers
+│   │   │   ├── common/       # Shared components (Button, Input, Modal, etc.)
+│   │   │   └── features/     # Feature-specific components (BookingForm, UserProfile, etc.)
+│   │   ├── contexts/          # React Context providers (minimal use; prefer Redux)
 │   │   ├── hooks/             # Custom React hooks
-│   │   ├── pages/             # Page-level components
+│   │   ├── pages/             # Page-level components (SPA views)
 │   │   ├── routes/            # React Router configuration
-│   │   ├── services/          # API service calls
+│   │   ├── services/          # API service calls (axios instances)
+│   │   ├── store/             # Redux store configuration
+│   │   │   ├── slices/       # Redux Toolkit slices
+│   │   │   └── store.js      # Store configuration
 │   │   ├── utils/             # Helper functions
 │   │   ├── styles/            # Global styles/themes
 │   │   ├── App.jsx            # Root component
 │   │   └── main.jsx           # Entry point
-│   ├── . env.example           # Environment variable template
+│   ├── .env.example           # Environment variable template
 │   ├── vite.config.js         # Vite configuration
 │   └── package.json
 │
@@ -687,12 +693,25 @@ module.exports = app;
 
 ## 5. React & Vite Frontend Standards
 
+### Single Page Application (SPA) Architecture
+
+This project is built as a **Single Page Application** using React with the following key principles:
+
+- **No Full Page Reloads**: All navigation and UI updates happen dynamically within a single HTML page
+- **Client-Side Routing**: Use React Router for seamless navigation without server requests
+- **Component-Based UI**: Build modular, reusable components that can be dynamically mounted and unmounted
+- **Redux State Management**: Centralize application state in Redux store for predictable state updates
+- **Fast Load Times**: Optimize for initial load and lazy-load components as needed
+- **Responsive Design**: All components must adapt to different screen sizes (mobile, tablet, desktop)
+
 ### Component Structure
 
 #### Naming Conventions
 - **Components**: PascalCase (e.g., `UserProfile`, `BlogPostCard`)
 - **Files**: PascalCase matching component name (e.g., `UserProfile.jsx`)
 - **Hooks**: camelCase with `use` prefix (e.g., `useAuth`, `useFetch`)
+- **Redux Actions**: camelCase with descriptive names (e.g., `fetchUsers`, `updateBooking`)
+- **Redux Reducers**: camelCase slice names (e.g., `userSlice`, `bookingSlice`)
 - **Utilities**: camelCase (e.g., `formatDate`, `validateEmail`)
 - **Constants**: UPPER_SNAKE_CASE (e.g., `API_BASE_URL`, `MAX_FILE_SIZE`)
 
@@ -1040,11 +1059,116 @@ export const userService = new UserService();
 
 ### State Management Best Practices
 
-- Use local component state for UI-specific state
-- Use Context API for global state (auth, theme, etc.)
-- Consider Redux Toolkit for complex state management needs
-- Use React Query for server state management
-- Avoid prop drilling by using composition or context
+This application uses **Redux Toolkit** for centralized state management in the SPA:
+
+#### State Management Strategy
+- **Redux Store**: Use Redux for global application state (user authentication, bookings, service areas, etc.)
+- **Local Component State**: Use `useState` for UI-specific state (form inputs, modals, loading states)
+- **Redux Slices**: Organize state by feature (e.g., `authSlice`, `bookingSlice`, `userSlice`)
+- **Async Operations**: Use Redux Toolkit's `createAsyncThunk` for API calls
+- **Selectors**: Use `createSelector` from Reselect for memoized state derivation
+- **Context API**: Use sparingly for theme or localization (prefer Redux for business logic)
+
+#### Redux Store Structure Example
+```javascript
+// store/store.js
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './slices/authSlice';
+import bookingReducer from './slices/bookingSlice';
+import userReducer from './slices/userSlice';
+
+export const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    bookings: bookingReducer,
+    users: userReducer,
+  },
+});
+```
+
+#### Redux Slice Example
+```javascript
+// store/slices/userSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { userService } from '../../services/userService';
+
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await userService.getAllUsers(params);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+const userSlice = createSlice({
+  name: 'users',
+  initialState: {
+    list: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload.users;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
+
+export const { clearError } = userSlice.actions;
+export default userSlice.reducer;
+```
+
+#### Using Redux in Components
+```jsx
+// components/UserList.jsx
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUsers } from '../../store/slices/userSlice';
+
+const UserList = () => {
+  const dispatch = useDispatch();
+  const { list, loading, error } = useSelector((state) => state.users);
+  
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+  
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  
+  return (
+    <div>
+      {list.map((user) => (
+        <div key={user._id}>{user.firstName} {user.lastName}</div>
+      ))}
+    </div>
+  );
+};
+```
+
+#### Best Practices
+- **Avoid prop drilling**: Use Redux connect or hooks to access state
+- **Keep Redux state normalized**: Avoid nested structures; use IDs for relationships
+- **Use Redux DevTools**: Enable for debugging state changes
+- **Immutable Updates**: Redux Toolkit uses Immer internally for safe mutations
 
 ```jsx
 // Example: Using composition to avoid prop drilling

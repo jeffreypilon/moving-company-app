@@ -8,16 +8,24 @@
 
 ## Project Overview
 
-This is a MERN stack application for a moving company that allows customers to:
+This is a **Single Page Application (SPA)** built with the MERN stack for a moving company. The application uses **React with Redux** for state management and implements a **component-based architecture** to dynamically render the user interface, ensuring fast page loading and responsive user experience.
+
+**Customer Features:**
 - Submit moving service inquiries
 - Receive automated quotations based on move details (rooms, property type, distance)
 - Book moving services online
 - View service availability by geographical area
 
-Admins can:
+**Admin Features:**
 - Define geographical service areas
 - View and maintain customer details and bookings
 - Manage service offerings and pricing
+
+**Technical Architecture:**
+- **Frontend:** React SPA with Redux for centralized state management
+- **Component Strategy:** Modular, reusable components for dynamic UI rendering
+- **Routing:** Client-side routing with React Router for seamless navigation
+- **Performance:** Optimized for fast loading and responsive interactions without full page refreshes
 
 **Important:** Always refer to `coding-standards.md` in the root directory for detailed coding conventions, patterns, and best practices.
 
