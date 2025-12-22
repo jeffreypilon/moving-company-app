@@ -190,9 +190,6 @@ temp/
 .rts2_cache_es/
 .rts2_cache_umd/
 
-# Vite cache
-client/node_modules/.vite/
-
 # =============================================================================
 # Security & Secrets
 # =============================================================================
@@ -221,7 +218,6 @@ credentials/
 
 # Vite build output
 client/dist-ssr/
-*.local
 
 # Static files cache
 client/public/.cache/
