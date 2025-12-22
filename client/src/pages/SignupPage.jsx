@@ -283,8 +283,8 @@ function SignupPage() {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center min-vh-100">
-      <Row className="w-100">
+    <Container className="py-5">
+      <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6} className="mx-auto">
           <Card className="shadow-sm" style={{ borderRadius: '15px' }}>
             <Card.Body className="p-4">
