@@ -241,18 +241,6 @@ client/public/.cache/
 # Miscellaneous
 # =============================================================================
 
-# Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
 # TypeScript cache
 *.tsbuildinfo
 
@@ -270,13 +258,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Storybook files
 storybook-static/
-
-# Next.js (if added later)
-.next/
-next-env.d.ts
-
-# Nuxt.js (if added later)
-.nuxt/
 
 # =============================================================================
 # Project-Specific
