@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoginPage from '../pages/LoginPage';
+import SignupPage from '../pages/SignupPage';
 import DashboardPage from '../pages/DashboardPage';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -26,6 +27,16 @@ const AppRoutes = () => {
           isAuthenticated ? 
             <Navigate to="/dashboard" replace /> : 
             <LoginPage />
+        } 
+      />
+
+      {/* Signup Route */}
+      <Route 
+        path="/signup" 
+        element={
+          isAuthenticated ? 
+            <Navigate to="/dashboard" replace /> : 
+            <SignupPage />
         } 
       />
       

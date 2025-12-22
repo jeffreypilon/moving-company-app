@@ -16,7 +16,6 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required'],
-      minlength: [6, 'Password must be at least 6 characters'],
       select: false // Don't return password by default
     },
     
@@ -77,7 +76,7 @@ const userSchema = new Schema(
 );
 
 // Indexes for performance
-userSchema.index({ email: 1 });
+// Note: email index is created by unique:true in schema, so we don't duplicate it here
 userSchema.index({ userType: 1, isActive: 1 });
 
 // Virtual property for full name
@@ -89,19 +88,14 @@ userSchema.virtual('fullName').get(function() {
 });
 
 // Pre-save middleware to hash password
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function() {
   // Only hash password if it's modified or new
   if (!this.isModified('password')) {
-    return next();
+    return;
   }
   
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 // Instance method to compare password

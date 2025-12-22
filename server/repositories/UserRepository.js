@@ -115,6 +115,19 @@ class UserRepository {
   }
 
   /**
+   * Check if user exists by first name and last name combination
+   * @param {string} firstName - User first name
+   * @param {string} lastName - User last name
+   * @returns {Promise<boolean>} True if user exists with this name combination
+   */
+  async existsByName(firstName, lastName) {
+    return !!(await User.exists({ 
+      firstName: firstName.trim(),
+      lastName: lastName.trim()
+    }));
+  }
+
+  /**
    * Count users by filter
    * @param {Object} filter - Query filter
    * @returns {Promise<number>} Count of users

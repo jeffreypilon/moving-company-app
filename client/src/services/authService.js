@@ -45,6 +45,20 @@ class AuthService {
   }
 
   /**
+   * Register new user
+   * @param {Object} userData - User registration data
+   * @returns {Promise<Object>} Response with user data
+   */
+  async register(userData) {
+    try {
+      const response = await apiClient.post('/auth/register', userData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * Check if user is authenticated
    * @returns {boolean} Authentication status
    */

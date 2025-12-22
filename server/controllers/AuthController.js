@@ -85,6 +85,36 @@ class AuthController {
       });
     }
   }
+
+  /**
+   * @route   POST /api/auth/register
+   * @desc    Register new user
+   * @access  Public
+   */
+  async register(req, res) {
+    try {
+      const result = await AuthService.register(req.body);
+
+      return res.status(201).json({
+        success: true,
+        statusCode: 201,
+        message: 'User registered successfully',
+        data: result
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      
+      // Handle specific error cases
+      const statusCode = error.message.includes('already') ? 409 : 400;
+      
+      return res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message: error.message || 'An error occurred during registration',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+  }
 }
 
 module.exports = new AuthController();

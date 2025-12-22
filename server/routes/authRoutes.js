@@ -11,6 +11,13 @@ const { authenticate } = require('../middleware/auth');
 router.post('/login', AuthController.login);
 
 /**
+ * @route   POST /api/auth/register
+ * @desc    Register new user
+ * @access  Public
+ */
+router.post('/register', AuthController.register);
+
+/**
  * @route   GET /api/auth/me
  * @desc    Get current logged in user
  * @access  Private

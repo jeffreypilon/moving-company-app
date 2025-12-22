@@ -106,28 +106,48 @@ class AuthService {
   /**
    * Register new user
    * @param {Object} userData - User registration data
-   * @returns {Promise<Object>} Token and user data
+   * @returns {Promise<Object>} User data (no token - user must login)
    */
   async register(userData) {
-    // Check if user already exists
-    const exists = await UserRepository.existsByEmail(userData.email);
-    if (exists) {
-      throw new Error('Email already registered');
+    // Check if email already exists
+    const emailExists = await UserRepository.existsByEmail(userData.email);
+    if (emailExists) {
+      throw new Error('Email address is already registered');
     }
 
-    // Create user
-    const user = await UserRepository.create(userData);
+    // Check if first name and last name combination already exists
+    const nameExists = await UserRepository.existsByName(
+      userData.firstName,
+      userData.lastName
+    );
+    if (nameExists) {
+      throw new Error('A user with this first name and last name combination already exists');
+    }
 
-    // Generate token
-    const token = generateToken({
-      id: user.id,
-      email: user.email,
-      userType: user.userType
-    });
+    // Set default userType to 'customer' if not provided
+    const userDataWithDefaults = {
+      ...userData,
+      userType: userData.userType || 'customer',
+      isActive: true
+    };
+
+    // Create user (password will be hashed by the User model pre-save hook)
+    const user = await UserRepository.create(userDataWithDefaults);
 
     return {
-      token,
-      user
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        fullName: user.fullName,
+        userType: user.userType,
+        phone: user.phone,
+        streetAddress: user.streetAddress,
+        city: user.city,
+        state: user.state,
+        zipCode: user.zipCode
+      }
     };
   }
 
