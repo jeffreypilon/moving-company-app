@@ -23,13 +23,13 @@ lerna-debug.log*
 # Environment Variables
 # =============================================================================
 
-# Environment files (NEVER commit these - contain secrets!)
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.*.local
+# Environment files (NEVER commit these - contain secrets!)  We will retain them in this case as this is just a university project and not a production application
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
+# .env.*.local
 
 # Keep .env.example files for documentation
 !.env.example
