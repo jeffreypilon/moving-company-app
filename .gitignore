@@ -77,11 +77,6 @@ client/.vitest/
 # Log files
 logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
 # Runtime data
 pids/
@@ -130,7 +125,6 @@ dump/
 .vim/
 
 # Emacs
-*~
 \#*\#
 .\#*
 .emacs.desktop
@@ -287,12 +281,6 @@ client/public/.cache/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
 
 # Storybook files
 storybook-static/
