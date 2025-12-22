@@ -1,0 +1,278 @@
+# MERN Stack .gitignore
+# Moving Company Online Booking Application
+# Technologies: MongoDB, Express.js, React (Vite), Node.js, Mongoose
+
+# =============================================================================
+# Dependencies
+# =============================================================================
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package manager lock files (uncomment if you want to ignore these)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# =============================================================================
+# Environment Variables
+# =============================================================================
+
+# Environment files (NEVER commit these - contain secrets!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# Keep .env.example files for documentation
+!.env.example
+
+# =============================================================================
+# Build Artifacts & Compiled Output
+# =============================================================================
+
+# Frontend build output (Vite)
+client/dist/
+client/build/
+client/.vite/
+
+# Backend build output (if using TypeScript compilation)
+server/dist/
+server/build/
+
+# General build directories
+dist/
+build/
+out/
+*.js.map
+
+# =============================================================================
+# Testing
+# =============================================================================
+
+# Test coverage reports
+coverage/
+*.coverage
+.nyc_output/
+.cache/
+
+# Vitest cache
+client/.vitest/
+
+# Jest cache
+.jest/
+
+# =============================================================================
+# Logs & Debugging
+# =============================================================================
+
+# Log files
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# =============================================================================
+# MongoDB
+# =============================================================================
+
+# MongoDB data directories
+data/
+db/
+mongodb/
+
+# MongoDB dump files
+*.bson
+dump/
+
+# =============================================================================
+# IDEs & Editors
+# =============================================================================
+
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json.example
+
+# JetBrains IDEs (WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+\#*\#
+.#*
+.emacs.desktop
+.emacs.desktop.lock
+
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata/
+
+# =============================================================================
+# Operating System Files
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# Temporary Files & Cache
+# =============================================================================
+
+# Temporary directories
+tmp/
+temp/
+.tmp/
+.temp/
+
+# =============================================================================
+# Security & Secrets
+# =============================================================================
+
+# Private keys and certificates
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+
+# SSH keys
+id_rsa
+id_dsa
+
+# API keys and secrets (if stored in files)
+secrets/
+.secrets/
+credentials/
+.credentials/
+
+# =============================================================================
+# React & Vite Specific
+# =============================================================================
+
+# Vite build output
+client/dist-ssr/
+
+# Static files cache
+client/public/.cache/
+
+# =============================================================================
+# Node.js & Express Specific
+# =============================================================================
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test/
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm/yarn/pnpm workspace files
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Storybook files
+storybook-static/
+
+# =============================================================================
+# Project-Specific
+# =============================================================================
+
+# Upload directories (if file uploads are implemented)
+uploads/
+client/public/uploads/
+server/uploads/
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Documentation build output
+docs/build/
+docs/_build/
