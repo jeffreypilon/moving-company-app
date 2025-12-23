@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignupPage';
 import DashboardPage from '../pages/DashboardPage';
+import AddServicePage from '../pages/AddServicePage';
 import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
@@ -46,6 +47,16 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        } 
+      />
+
+      {/* Add Service Route - Protected */}
+      <Route 
+        path="/add-service" 
+        element={
+          <ProtectedRoute>
+            <AddServicePage />
           </ProtectedRoute>
         } 
       />
