@@ -72,6 +72,18 @@ class UserRepository {
   }
 
   /**
+   * Find users by user type
+   * @param {string} userType - User type ('admin' or 'customer')
+   * @returns {Promise<Array>} Array of users
+   */
+  async findByUserType(userType) {
+    return await User.find({ userType, isActive: true })
+      .select('firstName lastName email phone photoFilename')
+      .sort({ firstName: 1, lastName: 1 })
+      .lean();
+  }
+
+  /**
    * Create new user
    * @param {Object} userData - User data
    * @returns {Promise<Object>} Created user

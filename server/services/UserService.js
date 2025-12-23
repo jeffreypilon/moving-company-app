@@ -6,6 +6,15 @@ const UserRepository = require('../repositories/UserRepository');
  */
 class UserService {
   /**
+   * Get all admin users (for public contact page)
+   * @returns {Promise<Array>} Array of admin users
+   */
+  async getAdminUsers() {
+    const admins = await UserRepository.findByUserType('admin');
+    return admins;
+  }
+
+  /**
    * Get all users with pagination and filtering
    * @param {Object} options - Query options
    * @returns {Promise<Object>} Users with pagination metadata
