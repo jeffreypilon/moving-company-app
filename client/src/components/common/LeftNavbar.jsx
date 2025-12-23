@@ -29,7 +29,11 @@ function LeftNavbar() {
    * Maps photoFilename to imported image assets
    */
   const getUserPhotoPath = () => {
+    console.log('LeftNavbar - User object:', user);
+    console.log('LeftNavbar - photoFilename:', user?.photoFilename);
+    
     if (!user?.photoFilename) {
+      console.log('LeftNavbar - No photoFilename found');
       return null;
     }
     
@@ -46,7 +50,9 @@ function LeftNavbar() {
       'Sarah_Mitchell.jpg': sarahMitchellPhoto
     };
     
-    return photoMap[user.photoFilename] || null;
+    const photoPath = photoMap[user.photoFilename] || null;
+    console.log('LeftNavbar - Mapped photo path:', photoPath);
+    return photoPath;
   };
 
   /**
