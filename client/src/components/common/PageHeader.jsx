@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import logoImage from '../../assets/images/star_movers_logo_1_small.jpg';
@@ -8,11 +9,25 @@ import logoImage from '../../assets/images/star_movers_logo_1_small.jpg';
  * Always visible at the top of the page even when scrolling
  */
 function PageHeader() {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleNavClick = () => {
+    setExpanded(false);
+  };
+
   return (
-    <Navbar bg="light" variant="light" expand="lg" fixed="top" className="border-bottom shadow-sm">
+    <Navbar 
+      bg="light" 
+      variant="light" 
+      expand="lg" 
+      fixed="top" 
+      className="border-bottom shadow-sm"
+      expanded={expanded}
+      onToggle={setExpanded}
+    >
       <Container fluid>
         {/* Company Logo */}
-        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+        <Navbar.Brand as={Link} to="/" onClick={handleNavClick} className="d-flex align-items-center">
           <img
             src={logoImage}
             alt="Star Movers Logo"
@@ -27,22 +42,22 @@ function PageHeader() {
         {/* Navigation Links */}
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-4">
-            <Nav.Link as={Link} to="/" className="px-3">
+            <Nav.Link as={Link} to="/" onClick={handleNavClick} className="px-3">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/login" className="px-3">
+            <Nav.Link as={Link} to="/login" onClick={handleNavClick} className="px-3">
               Login
             </Nav.Link>
-            <Nav.Link as={Link} to="/contacts" className="px-3">
+            <Nav.Link as={Link} to="/contacts" onClick={handleNavClick} className="px-3">
               Contacts
             </Nav.Link>
-            <Nav.Link as={Link} to="/services" className="px-3">
+            <Nav.Link as={Link} to="/services" onClick={handleNavClick} className="px-3">
               Services
             </Nav.Link>
-            <Nav.Link as={Link} to="/prices" className="px-3">
+            <Nav.Link as={Link} to="/prices" onClick={handleNavClick} className="px-3">
               Prices
             </Nav.Link>
-            <Nav.Link as={Link} to="/quick-quote" className="px-3">
+            <Nav.Link as={Link} to="/quick-quote" onClick={handleNavClick} className="px-3">
               QuickQuote
             </Nav.Link>
           </Nav>
