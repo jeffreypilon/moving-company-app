@@ -49,6 +49,14 @@ const userSchema = new Schema(
       trim: true
     },
     
+    // Photo filename (stored in client/src/assets/images/)
+    photoFilename: {
+      type: String,
+      trim: true,
+      default: null,
+      match: [/^[a-zA-Z0-9_\-\s.]+\.jpg$/i, 'Photo filename must be a .jpg file']
+    },
+    
     // User type
     userType: {
       type: String,
