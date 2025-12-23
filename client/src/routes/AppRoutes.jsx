@@ -1,9 +1,20 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignupPage';
 import DashboardPage from '../pages/DashboardPage';
 import AddServicePage from '../pages/AddServicePage';
+import ContactsPage from '../pages/ContactsPage';
+import ServicesPage from '../pages/ServicesPage';
+import PricesPage from '../pages/PricesPage';
+import QuickQuotePage from '../pages/QuickQuotePage';
+import ViewServicePage from '../pages/ViewServicePage';
+import ViewMessagePage from '../pages/ViewMessagePage';
+import ViewQuotePage from '../pages/ViewQuotePage';
+import ViewOrdersPage from '../pages/ViewOrdersPage';
+import RequestServicePage from '../pages/RequestServicePage';
+import NewInquiryPage from '../pages/NewInquiryPage';
 import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
@@ -11,15 +22,14 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* Redirect root to login or dashboard based on auth status */}
-      <Route 
-        path="/" 
-        element={
-          isAuthenticated ? 
-            <Navigate to="/dashboard" replace /> : 
-            <Navigate to="/login" replace />
-        } 
-      />
+      {/* Home Route */}
+      <Route path="/" element={<HomePage />} />
+      
+      {/* Public Routes */}
+      <Route path="/contacts" element={<ContactsPage />} />
+      <Route path="/services" element={<ServicesPage />} />
+      <Route path="/prices" element={<PricesPage />} />
+      <Route path="/quick-quote" element={<QuickQuotePage />} />
       
       {/* Login Route */}
       <Route 
@@ -51,7 +61,7 @@ const AppRoutes = () => {
         } 
       />
 
-      {/* Add Service Route - Protected */}
+      {/* Admin Routes - Protected */}
       <Route 
         path="/add-service" 
         element={
@@ -60,9 +70,61 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } 
       />
+      <Route 
+        path="/view-service" 
+        element={
+          <ProtectedRoute>
+            <ViewServicePage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/view-message" 
+        element={
+          <ProtectedRoute>
+            <ViewMessagePage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/view-quote" 
+        element={
+          <ProtectedRoute>
+            <ViewQuotePage />
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* Customer Routes - Protected */}
+      <Route 
+        path="/request-service" 
+        element={
+          <ProtectedRoute>
+            <RequestServicePage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/new-inquiry" 
+        element={
+          <ProtectedRoute>
+            <NewInquiryPage />
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* Common Protected Routes */}
+      <Route 
+        path="/view-orders" 
+        element={
+          <ProtectedRoute>
+            <ViewOrdersPage />
+          </ProtectedRoute>
+        } 
+      />
 
-      {/* Catch all - redirect to login */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      {/* Catch all - redirect to home */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

@@ -71,7 +71,8 @@ class AuthService {
         streetAddress: user.streetAddress,
         city: user.city,
         state: user.state,
-        zipCode: user.zipCode
+        zipCode: user.zipCode,
+        photoFilename: user.photoFilename
       }
     };
   }
