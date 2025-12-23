@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Card, Button, Stack } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
@@ -23,6 +23,9 @@ import sarahMitchellPhoto from '../../assets/images/Sarah_Mitchell.jpg';
 function LeftNavbar() {
   // Get authentication state and user info from Redux store
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+  
+  // Get current location to determine active route
+  const location = useLocation();
 
   /**
    * Get user photo path
@@ -181,7 +184,7 @@ function LeftNavbar() {
               <Button
                 as={Link}
                 to="/dashboard"
-                variant="primary"
+                variant={location.pathname === '/dashboard' ? 'primary' : 'outline-primary'}
                 className="w-100"
               >
                 Dashboard
@@ -193,7 +196,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/add-service"
-                    variant="outline-primary"
+                    variant={location.pathname === '/add-service' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     Add Service
@@ -201,7 +204,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/view-service"
-                    variant="outline-primary"
+                    variant={location.pathname === '/view-service' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     View Service
@@ -209,7 +212,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/view-message"
-                    variant="outline-primary"
+                    variant={location.pathname === '/view-message' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     View Message
@@ -217,7 +220,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/view-quote"
-                    variant="outline-primary"
+                    variant={location.pathname === '/view-quote' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     View Quote
@@ -225,7 +228,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/view-orders"
-                    variant="outline-primary"
+                    variant={location.pathname === '/view-orders' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     View Orders
@@ -237,7 +240,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/request-service"
-                    variant="outline-primary"
+                    variant={location.pathname === '/request-service' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     Request Service
@@ -245,7 +248,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/quick-quote"
-                    variant="outline-primary"
+                    variant={location.pathname === '/quick-quote' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     Quick Quote
@@ -253,7 +256,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/new-inquiry"
-                    variant="outline-primary"
+                    variant={location.pathname === '/new-inquiry' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     New Inquiry
@@ -261,7 +264,7 @@ function LeftNavbar() {
                   <Button
                     as={Link}
                     to="/view-orders"
-                    variant="outline-primary"
+                    variant={location.pathname === '/view-orders' ? 'primary' : 'outline-primary'}
                     className="w-100"
                   >
                     View Orders
