@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import serviceService from '../services/serviceService';
 import quoteService from '../services/quoteService';
+import serviceAreaService from '../services/serviceAreaService';
 
 // US States list
 const US_STATES = [
@@ -41,15 +42,17 @@ function QuickQuotePage() {
   });
 
   const [services, setServices] = useState([]);
+  const [activeServiceAreas, setActiveServiceAreas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [validated, setValidated] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  // Load services on component mount
+  // Load services and active service areas on component mount
   useEffect(() => {
     fetchServices();
+    fetchActiveServiceAreas();
   }, []);
 
   // Redirect to login if not authenticated
@@ -70,6 +73,20 @@ function QuickQuotePage() {
     } catch (err) {
       console.error('Error fetching services:', err);
       setError('Failed to load services');
+    }
+  };
+
+  /**
+   * Fetch active service areas
+   */
+  const fetchActiveServiceAreas = async () => {
+    try {
+      const response = await serviceAreaService.getActiveServiceAreas();
+      const activeStates = response.data?.serviceAreas || [];
+      setActiveServiceAreas(activeStates.map(area => area.stateCode));
+    } catch (err) {
+      console.error('Error fetching active service areas:', err);
+      // Don't set error here as it's not critical for form display
     }
   };
 
@@ -117,6 +134,13 @@ function QuickQuotePage() {
   };
 
   /**
+   * Check if state is in active service area
+   */
+  const isStateInServiceArea = (stateCode) => {
+    return activeServiceAreas.includes(stateCode);
+  };
+
+  /**
    * Handle form submission
    */
   const handleSubmit = async (e) => {
@@ -140,6 +164,17 @@ function QuickQuotePage() {
 
     if (!isValidZipCode(formData.toZipCode)) {
       setError('Please enter a valid "To" zip code (e.g., 12345 or 12345-6789)');
+      return;
+    }
+
+    // Validate service areas
+    if (!isStateInServiceArea(formData.fromState)) {
+      setError('Selected "Moving From" state is outside of our service area. Please select a state within the service area.');
+      return;
+    }
+
+    if (!isStateInServiceArea(formData.toState)) {
+      setError('Selected "Moving To" state is outside of our service area. Please select a state within the service area.');
       return;
     }
 
@@ -251,13 +286,28 @@ function QuickQuotePage() {
                     disabled={!isAuthenticated}
                   >
                     <option value="">Select...</option>
-                    {US_STATES.map(state => (
-                      <option key={state} value={state}>{state}</option>
-                    ))}
+                    {US_STATES.map(state => {
+                      const inServiceArea = isStateInServiceArea(state);
+                      return (
+                        <option 
+                          key={state} 
+                          value={state}
+                          disabled={!inServiceArea}
+                          style={{ color: inServiceArea ? 'inherit' : '#999' }}
+                        >
+                          {state} {!inServiceArea ? '(Not serviced)' : ''}
+                        </option>
+                      );
+                    })}
                   </Form.Select>
                   <Form.Control.Feedback type="invalid">
                     Please select a state.
                   </Form.Control.Feedback>
+                  {activeServiceAreas.length > 0 && (
+                    <Form.Text className="text-muted">
+                      Only states within our service area are available
+                    </Form.Text>
+                  )}
                 </Form.Group>
               </Col>
               <Col md={3}>
@@ -330,13 +380,28 @@ function QuickQuotePage() {
                     disabled={!isAuthenticated}
                   >
                     <option value="">Select...</option>
-                    {US_STATES.map(state => (
-                      <option key={state} value={state}>{state}</option>
-                    ))}
+                    {US_STATES.map(state => {
+                      const inServiceArea = isStateInServiceArea(state);
+                      return (
+                        <option 
+                          key={state} 
+                          value={state}
+                          disabled={!inServiceArea}
+                          style={{ color: inServiceArea ? 'inherit' : '#999' }}
+                        >
+                          {state} {!inServiceArea ? '(Not serviced)' : ''}
+                        </option>
+                      );
+                    })}
                   </Form.Select>
                   <Form.Control.Feedback type="invalid">
                     Please select a state.
                   </Form.Control.Feedback>
+                  {activeServiceAreas.length > 0 && (
+                    <Form.Text className="text-muted">
+                      Only states within our service area are available
+                    </Form.Text>
+                  )}
                 </Form.Group>
               </Col>
               <Col md={3}>

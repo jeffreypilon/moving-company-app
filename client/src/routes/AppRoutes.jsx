@@ -16,6 +16,7 @@ import ViewQuotePage from '../pages/ViewQuotePage';
 import ViewOrdersPage from '../pages/ViewOrdersPage';
 import RequestServicePage from '../pages/RequestServicePage';
 import NewInquiryPage from '../pages/NewInquiryPage';
+import ServiceAreaPage from '../pages/ServiceAreaPage';
 import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
@@ -84,6 +85,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <ViewUsersPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/service-area" 
+        element={
+          <ProtectedRoute>
+            <ServiceAreaPage />
           </ProtectedRoute>
         } 
       />
