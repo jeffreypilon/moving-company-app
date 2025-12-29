@@ -10,6 +10,7 @@ import ServicesPage from '../pages/ServicesPage';
 import PricesPage from '../pages/PricesPage';
 import QuickQuotePage from '../pages/QuickQuotePage';
 import ViewServicePage from '../pages/ViewServicePage';
+import ViewUsersPage from '../pages/ViewUsersPage';
 import ViewMessagePage from '../pages/ViewMessagePage';
 import ViewQuotePage from '../pages/ViewQuotePage';
 import ViewOrdersPage from '../pages/ViewOrdersPage';
@@ -75,6 +76,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <ViewServicePage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/view-users" 
+        element={
+          <ProtectedRoute>
+            <ViewUsersPage />
           </ProtectedRoute>
         } 
       />

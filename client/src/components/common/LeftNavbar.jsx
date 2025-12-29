@@ -211,6 +211,14 @@ function LeftNavbar() {
                   </Button>
                   <Button
                     as={Link}
+                    to="/view-users"
+                    variant={location.pathname === '/view-users' ? 'primary' : 'outline-primary'}
+                    className="w-100"
+                  >
+                    View Users
+                  </Button>
+                  <Button
+                    as={Link}
                     to="/view-message"
                     variant={location.pathname === '/view-message' ? 'primary' : 'outline-primary'}
                     className="w-100"

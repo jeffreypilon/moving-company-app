@@ -86,6 +86,62 @@ class AuthService {
       return null;
     }
   }
+
+  /**
+   * Get all users (admin only)
+   * @returns {Promise<Object>} Response with all users
+   */
+  async getAllUsers() {
+    try {
+      const response = await apiClient.get('/users');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Get user by ID (admin only)
+   * @param {string} userId - User ID
+   * @returns {Promise<Object>} User data
+   */
+  async getUserById(userId) {
+    try {
+      const response = await apiClient.get(`/users/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Update user (admin only)
+   * @param {string} userId - User ID
+   * @param {Object} updateData - Data to update
+   * @returns {Promise<Object>} Updated user data
+   */
+  async updateUser(userId, updateData) {
+    try {
+      const response = await apiClient.put(`/users/${userId}`, updateData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Delete user (admin only)
+   * @param {string} userId - User ID
+   * @returns {Promise<Object>} Delete confirmation
+   */
+  async deleteUser(userId) {
+    try {
+      const response = await apiClient.delete(`/users/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export const authService = new AuthService();
