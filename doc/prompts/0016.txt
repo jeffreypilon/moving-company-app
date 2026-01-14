@@ -1,0 +1,3 @@
+When a user submits a "Quick Quote", perform validation to only allow "Moving From" and "Moving To" states that are active in the service area.
+
+If the states the user enters are outside of the service area, then display an error message stating that "Selected state is outside of our service area.  Please select a state within the service area."

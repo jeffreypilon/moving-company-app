@@ -1,0 +1,1 @@
+in the services component in the user interface, display all of the services available in the database.  Place each service in a rounded rectangle border, with the photo at the imageURL at the top enclosed in its own nested rounded rectangle border, and beneath this, display the service title in bold text, and beneath that display in plain text the service description

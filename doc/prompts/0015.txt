@@ -1,0 +1,5 @@
+create a button for the left navbar called "Service Area"
+
+If the user is an admin, clicking the "Service Area" button should open a page that displays a clickable map of the States in the continental United States corresponding to a service area table in the database that contains a record for each state, and active/inactive status.
+
+When a state is clicked in the map, that state becomes active.  Active states should remain highlighted in the map to display the service area on the map.

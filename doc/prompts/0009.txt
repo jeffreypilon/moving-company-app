@@ -1,0 +1,3 @@
+implement view-service View Services that allows admin users to manage all services offered by Star Movers.
+
+Include a service listing and management interface to mamage each service

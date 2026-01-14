@@ -1,0 +1,5 @@
+implement view-quote View Quotes that allow users to manage all the quotes (quick quotes) which they submitted.
+
+If the user is an admin, they should be able to view ALL quotes from all users, and review and manage customer quotes.
+
+Include a quote listing and management interface to manage each quote

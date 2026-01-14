@@ -1,0 +1,17 @@
+create a component "Add Service" which contains the following form fields and buttons enclosed within a single line border with rounded edges.  This component should have the same look and feel and margin spacing as the login and signup components.
+
+Form Fields for text input:
+1. Title
+2. Description
+3. Image URL
+
+Buttons:
+Submit
+Reset
+
+
+When the user clicks the submit button, create a corresponding entry in the database for service with the fields above.
+
+After the service is added to the database, display a modal overlaying the service component with the text "Service Added" and an OK button beneath the text.  When the user clicks the OK button, close the modal and hide the Add Service component and show the dashboard component
+
+

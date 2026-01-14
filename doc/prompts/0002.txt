@@ -1,0 +1,7 @@
+Create a comprehensive 4-page coding-standards.md document for a project using the MERN Technology Stack and Mongoose:
+
+1. MongoDB for the database
+2. Express.js is a back-end web application framework of NodeJS used for building RESTful APIs for back-end services
+3. React with Vite for the front-end user interface components, and React Router for handling routing in React applications
+4. Node.js for the back-end.  Back-end routes should also be used to map the RESTful API service calls
+5. Mongoose (a JavaScript based object-oriented third-party library) forMongoDB used to create the connection between MongoDB and NodeJS runtime environment

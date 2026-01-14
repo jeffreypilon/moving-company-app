@@ -1,0 +1,26 @@
+implement the quick quote component.  Enclose all of the following within a rounded rectangle border:
+
+section called "Moving From" (bold text) with the following form fields:
+Street Address (text input)
+City (text input)
+State (dropdown)     Zip Code (text input)
+
+section called "Moving To" (bold text) with the following form fields:
+Street Address (text input)
+City (text input)
+State (dropdown)     Zip Code (text input)
+
+city and state form fields should appear on the same line in both sections
+
+calendar date picker labeled "Move Date" that saves the move date selected in the calendar date picker
+
+Select Service (dropdown containing titles of services in database) with the service id as the key value so that the quote may be associated with a service 
+
+Submit and Reset buttons
+
+Use the same type of form field validation and reset button functionality as the Sign Up component.
+
+When the user clicks the submit button, if validation passes, a new Quote record should be inserted in the database containing data from all of the form fields above, as well as a unique id for the quote and also a field with the user id who created the quote so that the quote may be associated with a user.
+
+
+ 

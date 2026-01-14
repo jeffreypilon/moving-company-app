@@ -1,0 +1,35 @@
+create a front-end user Sign Up component exposed at URL "/signup" and corresponding back-end signup service with the following input form fields that correspond to the User model:
+
+First Name - 30 character limit alpha characters only
+Last Name  - 30 character limit alpha characters only
+Email Address (which will be the username)
+Password  10 character limit alphanumeric
+Phone
+Street Address - 30 character limit alphanumeric and special characters allowed
+City - 30 character limit alphanumeric
+State - should be a drop-down containing capitalized state abbreviations (ex MI, OH, MA) for states in the contigious continental United States
+Zip Code - numbers only with input mask xxxxx-xxxx   9 character limit numeric only, do not save the '-' to the database
+
+
+and two buttons labeled:
+1. Sign In
+2. Reset
+
+Provide input mask for the phone number (xxx)xxx-xxxx
+
+The reset button should reset all fields and dropdowns to their original state before the user edited them.
+
+Use front-end client-side validation for all text input form fields and place validation error messages in red text beneath each form field.  Validate according to the following rules:
+1. Email:  standard email address format, must include @ symbol and .com at the end.  No spaces in the email address.
+2. Password:  Must be alphanumeric and limited to 10 characters.  Use asterisks to hide the password characters as the user types them, but also include a small eye symbol icon next to the password field to allow the user to switch between viewing the password in plain text instead of asterisks.
+
+
+If front-end validation passes and the request is submitted to the back-end, conduct additional back-end validation to prevent duplicate user entries in the database by searching for existing users in the database and returning a message if the submitted email address OR (First Name and Last Name combination) already exists in the database.
+
+Also enclose the input fields and buttons described above within a thin single line border with rounded edges like the login component.  Place a "Sign In" hyperlink beneath the rounded border just like the login page where the "Sign Up" hyperlink is displayed using that as an example.
+
+Functionality: 
+Upon clicking the Sign Up button, if all front-end and back-end validations pass, the back-end signup service should insert a new user in the database based on the submitted form field data.  Then, display a modal overlayed on the screen with the text "New User Account Created.  Please click OK to sign in." and an OK button beneath the text.  When the user clicks on the OK button, hide the modal and hide the signup component, and display the login component so the new user may log in. 
+
+
+

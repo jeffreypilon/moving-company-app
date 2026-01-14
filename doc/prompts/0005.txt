@@ -1,0 +1,31 @@
+create a front-end user login component exposed at URL "/login" and corresponding back-end login service.
+
+The front-end login component should have the following input text boxes:
+1. Email
+2. Password
+
+a radio button labeled "Type of User" with options
+1. Admin
+2. Customer
+with default value of Admin
+
+and two buttons labeled:
+1. Sign In
+2. Reset
+
+The reset button should reset all fields and radio buttons to their original state when the page was first loaded.
+
+Beneath the buttons, place a hyperlink labeled "Sign Up"
+
+Use front-end client-side validation for all form fields and place validation error messages in red text beneath each form field.  Validate according to the following rules:
+1. Email:  must include @ symbol and .com
+2. Password:  Must be alphanumeric and limited to 10 characters
+
+Also enclose the input fields and radio buttons described above within a thin single line border with rounded edges
+
+Functionality: 
+Upon clicking the Sign In button, if all fields contain valid data, the back-end login service should be called checking the submitted email and password against the users that are present in the database.  Be sure to use a JWT Token when communicating between the front-end and back-end so that back-end service URLs are not accessible unless a proper request with JWT token is received from the front-end application.  If the login is successful, hide the login component and open the dashboard component exposed at "/dashboard"
+
+I will provide complete requirements for the dashboard component in a future prompt, for now just make the dashboard component display the text "Welcome to the dashboard" 
+
+

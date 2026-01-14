@@ -1,0 +1,6 @@
+initialize the front-end React by executing the following commands in the client folder:
+
+npm create vite@latest frontend-app
+cd frontend-app
+npm install 
+npm install axios react-redux @reduxjs/toolkit react-router-dom

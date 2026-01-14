@@ -1,0 +1,39 @@
+PAGE HEADER COMPONENT
+
+Create a page header component horizontal navbar that will always appear at the top of the user interface, with a company logo image star_movers_logo_1_small.jpg at the far left, followed by some spacing and then the hyperlinked menu items listed below, displayed horizontally to the right accross the top:
+
+Home
+Login (when clicked should open the login component)
+Contacts
+Services
+Prices
+QuickQuote
+
+The header component should be stationary on the page so that it is always displayed at the top even if the user scrolls down the page.
+
+
+LEFT NAVBAR COMPONENT
+
+Also create a left navbar component that is always visible.  The left navbar should remain scollable with the rest of the page, and should NOT be stationary.  
+
+If a user is NOT logged in, within the left navbar component display a section entitled "Latest News" followed by three example 1 sentence news items related to the moving company.  Beneath the "Latest News" section, display another section entitled "Customer Testimonials" followed by four example customer testimonials of 1 sentence each describing how great the moving company is and then the customer's name in the following format "-Firstname Lastname" in italics text.
+
+If a user IS logged in, in the left navbar component first display the user photo jpg image of using photofilename reference to the image folder.  The user photo should be enclosed within a rounded rectangle.  Directly beneath the user photo rounded rectangle, display the user name in bold text and on the next line the user type (Admin, Customer) in plain text. Provide some spacing beneath that, and then display the following buttons vertically depending on the type of user that is logged in:
+
+Buttons to be displayed when Admin user type is logged in:
+Dashboard
+Add Service  (when clicked should open the Add Service component)
+View Service
+View Message
+View Quote
+View Orders
+
+Buttons to be displayed when Customer user type is logged in:
+Dashboard
+Request Service
+Quick Quote
+New Inquiry
+View Orders
+
+Generate dummy URLs for buttons and hyperlinks in cases above where I have not specifically indicated a component that should be opened.  I will come back later and provide hyperlinks after we create additional components later. 
+

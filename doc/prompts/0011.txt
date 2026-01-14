@@ -1,0 +1,8 @@
+in the contacts component, enclosed in a rounded rectangle border, include some standardized text encouraging users to contact the people in the following list for help with their moving and packing needs, followed by some spacing and then the list of all of the ADMIN user types in the database:
+
+Full Name (in bold text)
+Phone
+Email
+
+Place adequate spacing between each contact in the list
+

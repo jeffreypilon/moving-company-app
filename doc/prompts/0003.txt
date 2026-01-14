@@ -1,0 +1,5 @@
+initialize the back-end server by executing the following commands in the server folder:
+
+npm init -y
+npm install express mongoose
+npm install nodemon --save-dev
